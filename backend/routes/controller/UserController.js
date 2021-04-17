@@ -1,4 +1,5 @@
 const connection = require('../../dataBase/connection')
+const TokenController = require('./TokenController')
 
 module.exports = {
 	async index (req, res) {
@@ -6,8 +7,10 @@ module.exports = {
 		const response = await connection('user')
 			.where('user', user).andWhere('password', pwd)
 			.select('*')
-		if (!response.length) return res.status(404).json({ error: 'Usuario Invalido!' })
-		res.status(200).json(response)
+		if (!response.length) return res.status(404).json({ message: 'Invalid user!' })
+		
+		const token = TokenController.create(user, pwd)
+		res.status(200).json({ user, pwd, token })
 	},
 
 	async create (req, res) {
@@ -16,7 +19,7 @@ module.exports = {
 			user: user,
 			password: pwd
 		})
-		console.log(response);
+		if (!response.length) return res.status(500).json({ message: 'Unexpected user creation error' })
 		res.status(204).send()
 	}
 }

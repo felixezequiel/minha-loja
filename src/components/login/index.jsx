@@ -7,7 +7,6 @@ import {
 import { useRef } from 'react';
 import { useHistory } from 'react-router';
 import { reqLogin } from '../../API';
-import { Beforeunload } from 'react-beforeunload'
 
 export const Login = () => {
 	
@@ -16,8 +15,7 @@ export const Login = () => {
 	const usuario = useRef(null)
 	const senha = useRef(null)
 
-	Beforeunload(evento => evento.preventDefault())
-
+	
 	const handleSubmit = async evento => {
 		evento.preventDefault()
 		await reqLogin(
