@@ -5,20 +5,27 @@ import {
 	TextField, Typography
 } from '@material-ui/core'
 import { useRef } from 'react';
-import { msgSenhaDiferente } from '../../helpers/mensagens';
-import { insertUsuario } from '../../API';
+import { msgRegistredSucessful, msgSenhaDiferente, msgUserExists } from '../../helpers/mensagens';
+import { insertUsuario, userExists } from '../../API';
+import { useHistory } from 'react-router';
 
 export const CadastroUsuario = () => {
 	const classes = useStyles();
 	const usuario = useRef(null)
 	const senha = useRef(null)
 	const senhaRepetida = useRef(null)
+	const history = useHistory()
 
-	const handleSubmit = evento => {
+	const handleSubmit = async evento => {
 		evento.preventDefault()
 		if (evento.target.password.value !== evento.target.passwordRepeat.value) return msgSenhaDiferente()
-		insertUsuario(evento.target.usuario.value, evento.target.password.value)
-		.then(res => console.log(res.data))
+		await userExists(evento.target.usuario.value)
+			.then(() => insertUsuario(evento.target.usuario.value, evento.target.password.value)
+				.then(() => msgRegistredSucessful().then(() => {
+					history.push('/')
+				})))
+			.catch(() => msgUserExists())
+
 	}
 
 	return (

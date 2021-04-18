@@ -78,13 +78,12 @@ export const Login = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link variant="body2">
                 Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
               <Link 
-								href="#" 
 								variant="body2"
 								onClick={() => history.push('/cadastro-usuario')}
 							>

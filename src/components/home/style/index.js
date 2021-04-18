@@ -49,8 +49,22 @@ export const CaixaIcone = styled.div`
 	background-color: ${colorPalette.branco};
 
 	box-shadow: 4px 4px 10px ${colorPalette.begeLigth};
-	&:hover {
-		width: 240px;
-		height: 140px;
+`
+
+export const ContainerInfoMenu = styled.div.attrs(props => {
+	return {
+		style: {
+			top: props.coor.top + 'px',
+			left: props.coor.left + 'px'
+		}
 	}
+})`
+	position: fixed;
+	padding: 3px;
+	background-color: ${colorPalette.begeLigth};
+	color: ${colorPalette.branco};
+	box-shadow: 0 0 10px ${colorPalette.branco};
+
+	border-radius: .5em;
+
 `
