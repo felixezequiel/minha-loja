@@ -11,7 +11,7 @@ module.exports = {
 
 	validate(token) {
 		if (!token) return { message: 'Token not informed', auth: false }
-		jwt.verify(token, secret, erro => erro ? 
+		return jwt.verify(token, secret, erro => erro ? 
 			{ 
 				message: 'without permission', 
 				auth: false 

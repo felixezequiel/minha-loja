@@ -1,9 +1,12 @@
 import './App.css';
 import Routes from './routes';
+import { AuthProvider } from './Provider/auth'
 
 function App() {
   return (
-    <Routes />
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
   );
 }
 

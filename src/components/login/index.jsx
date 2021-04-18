@@ -4,25 +4,33 @@ import {
 	CssBaseline, Grid, Link, 
 	TextField, Typography 
 } from '@material-ui/core'
-import { useRef } from 'react';
+import { useContext  } from 'react';
 import { useHistory } from 'react-router';
 import { reqLogin } from '../../API';
+import { Auth } from '../../Provider/auth';
 
 export const Login = () => {
-	
+	const [, setAuthorization] = useContext(Auth)
 	const history = useHistory()
 	const classes = useStyles();
-	const usuario = useRef(null)
-	const senha = useRef(null)
 
-	
+  const cachedLogin = login => localStorage.setItem('login', JSON.stringify(login))
+  
 	const handleSubmit = async evento => {
 		evento.preventDefault()
 		await reqLogin(
 			evento.target.usuario.value,
 			evento.target.senha.value
 		)
-		.then(resp => console.log(resp.data))
+		.then(resp => {
+      setAuthorization({
+        user: evento.target.usuario.value,
+        password: evento.target.senha.value,
+        auth: true
+      })
+      cachedLogin(resp.data)
+      history.push('/home')
+    })
 	}
 
   return (
@@ -47,7 +55,6 @@ export const Login = () => {
             label="Usuario"
             name="usuario"
             autoFocus
-						ref={usuario}
           />
           <TextField
             variant="outlined"
@@ -59,7 +66,6 @@ export const Login = () => {
             type="password"
             id="senha"
             autoComplete="current-password"
-						ref={senha}
           />
           <Button
             type="submit"
@@ -68,7 +74,7 @@ export const Login = () => {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
             <Grid item xs>
